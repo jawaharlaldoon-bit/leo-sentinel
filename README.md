@@ -53,7 +53,10 @@ observations. It displays MAE, MAPE, and a naïve-baseline comparison.
 | Fleet Parquet/DuckDB/Recharts analytics | Health endpoint and zero-cost guardrails |
 | Docker packaging and port `7860` runner | IBM Bob evidence and zero-cost release workflow |
 
-See [ATTRIBUTION.md](ATTRIBUTION.md) and the retained [MIT license](LICENSE).
+Legal notices, project attribution, and submission contributions are collected
+in [docs/legal-and-contributions](docs/legal-and-contributions/README.md). The
+canonical [MIT license](LICENSE) remains at the repository root so GitHub and
+package tooling can detect it.
 
 ## IBM technology
 
@@ -174,13 +177,15 @@ behavior.
 ## Team and submission
 
 IBM Bob prompts, outcomes, validation, and screenshots are recorded in
-[IBM_BOB_USAGE.md](IBM_BOB_USAGE.md). Before submitting, add the final public
-video URL, list each team member and contribution here, and have every team
-member complete the required SkillsBuild activity. The final operational
-checklist and exact video timeline are in
+[IBM_BOB_USAGE.md](IBM_BOB_USAGE.md). Team roles and challenge work are recorded
+in the consolidated
+[contribution record](docs/legal-and-contributions/CONTRIBUTIONS.md). Before
+submitting, add the final public video URL and have every team member complete
+the required SkillsBuild activity. The final operational checklist and exact video timeline are in
 [docs/SUBMISSION_CHECKLIST.md](docs/SUBMISSION_CHECKLIST.md).
 
 ## License
 
-MIT. Copyright for the original project remains with Julien Simon as recorded
-in [LICENSE](LICENSE). Challenge additions preserve that notice and history.
+MIT. The required copyright notice and permission terms are preserved in the
+canonical [LICENSE](LICENSE). Attribution and contribution details are grouped
+under [docs/legal-and-contributions](docs/legal-and-contributions/README.md).
