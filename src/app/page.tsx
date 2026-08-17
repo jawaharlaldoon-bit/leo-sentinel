@@ -58,7 +58,7 @@ export default function Home() {
 
   return (
     <main style={{ width: '100vw', height: '100vh' }}>
-      {process.env.NEXT_PUBLIC_HF_SPACE && (
+      {process.env.NEXT_PUBLIC_PUBLIC_DEMO && (
         <div style={{
           position: 'fixed', top: 0, left: 0, right: 0, zIndex: 60,
           background: 'rgba(10, 14, 26, 0.85)', backdropFilter: 'blur(8px)',

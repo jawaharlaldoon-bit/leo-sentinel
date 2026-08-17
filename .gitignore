@@ -73,3 +73,5 @@ data/bulk/
 data/ground-stations-update-report.md
 data/ground-stations-meta.json
 .worktrees/
+
+.vercel

@@ -5,7 +5,7 @@
  * Refresh: POST /api/fleet/refresh re-downloads from HF
  */
 
-import { DuckDBInstance } from '@duckdb/node-api';
+import type { DuckDBInstance } from '@duckdb/node-api';
 import { existsSync } from 'fs';
 import { join } from 'path';
 
@@ -22,7 +22,12 @@ let dbPromise: Promise<DuckDBInstance> | null = null;
 
 async function getDb(): Promise<DuckDBInstance> {
   if (!dbPromise) {
-    dbPromise = DuckDBInstance.create();
+    // Keep the optional native binding out of serverless functions that only
+    // serve the bundled/cache fallback. Docker and local dataset installs still
+    // load DuckDB normally as soon as a Parquet-backed query is requested.
+    dbPromise = import('@duckdb/node-api').then(({ DuckDBInstance }) =>
+      DuckDBInstance.create(),
+    );
   }
   return dbPromise;
 }

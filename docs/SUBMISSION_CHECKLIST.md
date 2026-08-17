@@ -2,7 +2,7 @@
 
 ## Project and team
 
-- [ ] Add the final public GitHub repository URL to `README.md`.
+- [x] Add the final public GitHub repository URL to `README.md`.
 - [ ] Confirm the original author is authorized and correctly listed as a team member.
 - [ ] Complete the required IBM SkillsBuild activity for every team member.
 - [ ] Complete `IBM_BOB_USAGE.md` with real prompts, commits, and screenshots.
@@ -10,23 +10,23 @@
 
 ## Zero-cost deployment
 
-- [ ] Create a public Hugging Face Docker Space on free CPU hardware.
-- [ ] Confirm `app_port: 7860` and `DEMO_MODE=true`.
-- [ ] Add `WATSONX_API_KEY` and `WATSONX_PROJECT_ID` only as Space secrets.
-- [ ] Begin with `WATSONX_LIVE_ENABLED=false` and verify cache/fallback mode.
+- [x] Deploy publicly on Vercel Hobby after Hugging Face made new compute Spaces paid.
+- [x] Keep the Docker image validated on port `7860` and deploy with `DEMO_MODE=true`.
+- [ ] Add `WATSONX_API_KEY` and `WATSONX_PROJECT_ID` only as server-side Vercel variables.
+- [x] Begin with `WATSONX_LIVE_ENABLED=false` and verify cache/fallback mode.
 - [ ] Enable Runtime Lite only after confirming the IBM account remains on Lite.
-- [ ] Never select persistent paid storage or upgraded hardware.
+- [x] Never select a paid plan, persistent paid storage, or upgraded hardware.
 - [ ] Open the public URL in an incognito window and test Globe, Fleet, and APIs.
 
 ## Acceptance test
 
 - [ ] Space and Sky views load and remain interactive.
-- [ ] Fleet loads the cached Granite outlook without the Parquet dataset.
-- [ ] North Atlantic scenario shows a successful Goonhilly reroute.
+- [x] Fleet loads the cached Granite outlook without the Parquet dataset.
+- [x] North Atlantic scenario shows a successful Goonhilly reroute.
 - [ ] Isolating Goonhilly produces a no-route critical result.
-- [ ] Mission brief cites only evidence IDs shown in the drawer.
-- [ ] `/api/health` reports fallback ready and exposes no secrets.
-- [ ] Tests, TypeScript, production build, and Docker build pass.
+- [x] Mission brief cites only evidence IDs shown in the drawer.
+- [x] `/api/health` reports fallback ready and exposes no secrets.
+- [x] Tests, TypeScript, production build, and Docker build pass.
 
 ## Three-minute video
 

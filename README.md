@@ -1,13 +1,3 @@
----
-title: LEO Sentinel
-emoji: 🛰️
-colorFrom: blue
-colorTo: indigo
-sdk: docker
-app_port: 7860
-pinned: false
----
-
 # LEO Sentinel
 
 LEO Sentinel turns an existing, production-quality Starlink visualization into
@@ -16,12 +6,11 @@ globe, Sky view, Fleet analytics, SGP4 propagation, dish telemetry, handoffs,
 ground stations, and ISL routing, then adds outage simulation, a 96-day IBM
 Granite fleet outlook, and evidence-grounded mission briefs.
 
-This is the August IBM AI Builders Challenge submission. The public demo and
-video links will be inserted here before submission:
+This is the August IBM AI Builders Challenge submission:
 
-- **Public demo:** `TODO: final Hugging Face Space URL`
+- **Public demo:** [leo-sentinel.vercel.app](https://leo-sentinel.vercel.app)
 - **Three-minute video:** `TODO: final public video URL`
-- **Submission repository:** `TODO: final team-controlled GitHub URL`
+- **Submission repository:** [jawaharlaldoon-bit/leo-sentinel](https://github.com/jawaharlaldoon-bit/leo-sentinel)
 
 ## The problem
 
@@ -62,7 +51,7 @@ observations. It displays MAE, MAPE, and a naïve-baseline comparison.
 | Ground stations and PoP logic | Granite 4 grounded mission briefs |
 | Dish telemetry, WebSockets, handoffs | Evidence validation, rate limits, retries, fallbacks |
 | Fleet Parquet/DuckDB/Recharts analytics | Health endpoint and zero-cost guardrails |
-| Docker/Hugging Face deployment | IBM Bob evidence and submission workflow |
+| Docker packaging and port `7860` runner | IBM Bob evidence and zero-cost release workflow |
 
 See [ATTRIBUTION.md](ATTRIBUTION.md) and the retained [MIT license](LICENSE).
 
@@ -105,13 +94,21 @@ the globe, telemetry, routing, or Fleet views.
 
 The application requires no paid infrastructure:
 
-- existing Docker image on a **free Hugging Face CPU Space**;
-- port `7860` and `DEMO_MODE=true` for judges;
-- watsonx.ai **Runtime Lite only**, with credentials stored as Space secrets;
-- no IBM Code Engine, paid HF hardware/storage, database, vector store,
+- public Next.js deployment on **Vercel Hobby ($0)** with hard free-tier caps;
+- `DEMO_MODE=true` for judges, with the existing Docker image and port `7860`
+  retained and release-tested for portable deployment;
+- watsonx.ai **Runtime Lite only**, with credentials stored as server-side
+  Vercel environment variables;
+- no IBM Code Engine, paid Hugging Face plan/hardware/storage, database, vector store,
   monitoring vendor, domain, or paid API;
 - cached forecast and deterministic brief when IBM is disabled, timed out,
   unauthenticated, rate-limited, or out of free allowance.
+
+Hugging Face changed its policy in July 2026 so creating a new Gradio or Docker
+Space requires a paid subscription even on CPU Basic. LEO Sentinel therefore
+uses Vercel Hobby for the public demo rather than violating the zero-cost
+constraint. The Docker deployment remains part of the repository and was
+validated locally on port `7860`.
 
 `WATSONX_LIVE_ENABLED=false` is the safe default. No user interaction can
 activate a paid plan or create billable infrastructure.

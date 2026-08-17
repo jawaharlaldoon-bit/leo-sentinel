@@ -42,10 +42,12 @@ unperformed Bob work.
 
 ### Session 4 — deployment and final validation
 
-> Audit the existing Docker/Hugging Face Spaces deployment for port 7860,
-> `DEMO_MODE=true`, free CPU compatibility, secret handling, and cache-only
-> behavior without IBM credentials. Do not introduce Code Engine, paid
-> hardware, storage, databases, or APIs. Run the full release checklist.
+> Audit the existing Docker packaging and Vercel Hobby deployment. Confirm
+> port 7860 remains valid for Docker, `DEMO_MODE=true` is active publicly,
+> server-only secret handling is preserved, and cache-only behavior works
+> without IBM credentials. Record that new Hugging Face compute Spaces became
+> paid in July 2026. Do not introduce Code Engine, paid plans, hardware,
+> storage, databases, or APIs. Run the full release checklist.
 
 ## Evidence log
 

@@ -1,0 +1,13 @@
+.git
+.next
+node_modules
+
+# Upstream documentation/demo media is not needed at runtime and would exceed
+# the Vercel Hobby source-upload limit. The files remain in Git and Git LFS.
+docs
+starlink-viz.mov
+
+# Test sources are retained in GitHub but are not required by the production
+# bundle. Vercel still runs the normal Next.js production build.
+**/*.test.ts
+**/*.test.tsx
