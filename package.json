@@ -1,6 +1,7 @@
 {
   "name": "leo-sentinel",
   "version": "0.1.0",
+  "author": "jawaharlaldoon-bit",
   "private": true,
   "scripts": {
     "dev": "npx tsx watch server.ts",

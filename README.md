@@ -176,12 +176,15 @@ behavior.
 
 ## Team and submission
 
+**Sole challenge entrant and current maintainer:**
+[Jawahar (`jawaharlaldoon-bit`)](https://github.com/jawaharlaldoon-bit).
+
 IBM Bob prompts, outcomes, validation, and screenshots are recorded in
 [IBM_BOB_USAGE.md](IBM_BOB_USAGE.md). Team roles and challenge work are recorded
 in the consolidated
 [contribution record](docs/legal-and-contributions/CONTRIBUTIONS.md). Before
-submitting, add the final public video URL and have every team member complete
-the required SkillsBuild activity. The final operational checklist and exact video timeline are in
+submitting, add the final public video URL and complete the required SkillsBuild
+activity. The final operational checklist and exact video timeline are in
 [docs/SUBMISSION_CHECKLIST.md](docs/SUBMISSION_CHECKLIST.md).
 
 ## License

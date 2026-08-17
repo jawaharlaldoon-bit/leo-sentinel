@@ -3,10 +3,10 @@
 ## Project and team
 
 - [x] Add the final public GitHub repository URL to `README.md`.
-- [ ] Confirm the original author is authorized and correctly listed as a team member.
-- [ ] Complete the required IBM SkillsBuild activity for every team member.
+- [x] List Jawahar as the sole challenge entrant and current maintainer.
+- [ ] Complete the required IBM SkillsBuild activity for Jawahar.
 - [x] Complete `IBM_BOB_USAGE.md` with real prompts, commits, and screenshots.
-- [ ] Add names and explicit contributions to the README.
+- [x] Record Jawahar's explicit contributions in the contribution record.
 
 ## Zero-cost deployment
 
