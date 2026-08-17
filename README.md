@@ -1,6 +1,6 @@
 ---
-title: Starlink Mission Control
-emoji: 🛰
+title: LEO Sentinel
+emoji: 🛰️
 colorFrom: blue
 colorTo: indigo
 sdk: docker
@@ -8,197 +8,180 @@ app_port: 7860
 pinned: false
 ---
 
-# starlink-viz
+# LEO Sentinel
 
-> **[Live Demo on Hugging Face Spaces](https://huggingface.co/spaces/juliensimon/starlink-mission-control)** | **[Technical Documentation](docs/TECHNICAL_REVIEW.md)** | **[User Guide](docs/USER_GUIDE.md)**
+LEO Sentinel turns an existing, production-quality Starlink visualization into
+a mission-resilience copilot for LEO operators. It preserves the original 3D
+globe, Sky view, Fleet analytics, SGP4 propagation, dish telemetry, handoffs,
+ground stations, and ISL routing, then adds outage simulation, a 96-day IBM
+Granite fleet outlook, and evidence-grounded mission briefs.
 
-Real-time 3D Starlink satellite tracker and mission control dashboard. Track every satellite in the SpaceX Starlink constellation, monitor live dish telemetry, visualize ground stations, watch satellite handoffs, and predict inter-satellite laser link (ISL) routing — all computed from publicly available data. Includes a Stellarium-style night sky view with constellations and sun illumination modeling. Built with Next.js, React Three Fiber, and Three.js.
+This is the August IBM AI Builders Challenge submission. The public demo and
+video links will be inserted here before submission:
 
-![CI](https://github.com/juliensimon/starlink-viz/actions/workflows/ci.yml/badge.svg)
-![Next.js](https://img.shields.io/badge/Next.js-16-black)
-![Three.js](https://img.shields.io/badge/Three.js-0.183-049EF4)
-![React](https://img.shields.io/badge/React-19-61DAFB)
-![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6)
-![satellite.js](https://img.shields.io/badge/SGP4-satellite.js-orange)
-![Satellites](https://img.shields.io/badge/satellites-~10%2C000-blueviolet)
-![Ground Stations](https://img.shields.io/badge/gateways-HF_dataset-ff9933)
-![License](https://img.shields.io/badge/license-MIT-green)
+- **Public demo:** `TODO: final Hugging Face Space URL`
+- **Three-minute video:** `TODO: final public video URL`
+- **Submission repository:** `TODO: final team-controlled GitHub URL`
 
-### Space View
-![Space View](docs/space-view.png)
+## The problem
 
-### Sky View
-![Sky View](docs/sky-view.png)
+LEO operators have abundant telemetry but little time to understand what an
+asset outage changes, whether an alternate path exists, how fleet health is
+trending, and which response is supported by evidence. Open-ended chat is a
+poor fit for this workflow: mission decisions need bounded inputs, repeatable
+calculations, source labels, and graceful operation when AI is unavailable.
 
-## What it does
+## The solution
 
-### Space View (looking at Earth from space)
+Mission Ops adds three predefined workflows to the existing HUD:
 
-- **~10,000 Starlink satellites** propagated in real time using SGP4 orbital mechanics across 5 orbital shells
-- **GPS constellation** tracked alongside Starlink with hover identification
-- **Live dish telemetry** from a real Starlink dish via gRPC (or demo mode with simulated data)
-- **Astronomically accurate Sun and Moon** with real-time positioning, lens flare, and natural lunar phases
-- **Satellite handoff tracking** — monitors when your dish switches between satellites
-- **Ground stations** from FCC/international filings (loaded from [HF dataset](https://huggingface.co/datasets/juliensimon/starlink-ground-stations)), with operational/planned status
-- **ISL routing prediction** — models inter-satellite laser links with PoP-constrained gateway selection, line-of-sight checks, and per-gateway backhaul estimation
-- **Connection beam** visualization from dish to connected satellite (cyan uplink, green ISL hops, orange downlink)
-- **Demo locations** — 5 remote locations (Iceland Gap, Atlantic, Gulf of Mexico, Celtic Sea) where ISL routing is mandatory
-- **Day/night globe** with city lights on the dark side and atmospheric glow
+- **North Atlantic gateway outage** — isolates the closest gateway and tests an
+  alternate route through Goonhilly.
+- **Polar-shell degradation** — removes a polar asset and measures an ISL-style
+  alternate path.
+- **Fleet anomaly watch** — isolates an anomalous asset while preserving a
+  route when redundancy exists.
 
-### Sky View (Stellarium-style night sky from observer)
+Every run returns baseline/degraded routes, latency and hop deltas, disabled
+assets, a deterministic risk score, and individually identified evidence. The
+mission brief can only cite those evidence IDs; unsupported claims are rejected.
 
-- **Horizon camera** — 360-degree panoramic view from your dish location, drag from horizon to zenith
-- **~500 reference stars** with magnitude-based sizing, B-V color tinting, and named labels for the brightest
-- **88 IAU constellations** with stick-figure lines and labeled names
-- **Sun illumination model** — cylindrical Earth shadow dims satellites in shadow to 10% brightness; sun-aware sky gradient transitions through day/twilight/night phases
-- **Satellite trajectory on hover** — shows past (cyan) and future (yellow) orbital path arcs on the dome
-- **Tooltips** on satellites (name, NORAD ID, az/el, shell, sunlit status) and stars (name, magnitude)
-- **Glow halo** on the connected satellite, follows handovers in real time
-- **Sky HUD** — sun elevation, satellite counts (sunlit/shadow), UTC time, daytime visibility warning
-- **Cardinal compass** with tick marks every 10 degrees, bold at N/S/E/W
+The Fleet page adds a **96-day forecast** for operational, ISL-capable,
+orbit-raising, deorbiting, and anomalous satellites, using at least 512 daily
+observations. It displays MAE, MAPE, and a naïve-baseline comparison.
 
-## Quick start
+## What existed and what is new
 
-```bash
-npm install
-npm run dev
-```
+| Existing upstream engine, preserved | August challenge additions |
+|---|---|
+| Next.js/React application | LEO Sentinel branding and Mission Ops workflow |
+| React Three Fiber/Three.js globe | Three deterministic resilience scenarios |
+| Space and Sky views | Typed `/api/scenarios/run` endpoint |
+| SGP4 propagation and TLE loading | Granite TTM 512/96 forecast adapter |
+| ISL routing and route beams | Forecast cache, backtest, and bundled result |
+| Ground stations and PoP logic | Granite 4 grounded mission briefs |
+| Dish telemetry, WebSockets, handoffs | Evidence validation, rate limits, retries, fallbacks |
+| Fleet Parquet/DuckDB/Recharts analytics | Health endpoint and zero-cost guardrails |
+| Docker/Hugging Face deployment | IBM Bob evidence and submission workflow |
 
-Opens at [http://localhost:3000](http://localhost:3000). If no Starlink dish is detected on the network, **demo mode** activates automatically with simulated telemetry.
+See [ATTRIBUTION.md](ATTRIBUTION.md) and the retained [MIT license](LICENSE).
 
-## Connecting to a Starlink dish
+## IBM technology
 
-The server connects to a Starlink dish via gRPC at `192.168.100.1:9200` (the standard Starlink router address). You must be on the Starlink network.
-
-```bash
-# Custom dish address
-DISH_ADDRESS=192.168.100.1:9200 npm run dev
-
-# Force demo mode (no dish required)
-DEMO_MODE=true npm run dev
-
-# Custom dish location (defaults to 48.910°N, 1.910°E)
-NEXT_PUBLIC_DISH_LAT=37.7749 NEXT_PUBLIC_DISH_LON=-122.4194 npm run dev
-```
+- **IBM Bob** is the required primary development environment. Focused prompts,
+  validation, commits, and screenshot requirements are in
+  [IBM_BOB_USAGE.md](IBM_BOB_USAGE.md).
+- **`ibm/granite-ttm-512-96-r2`** is the configured time-series model. Live
+  forecast refresh is development/admin-only; the public demo uses a labeled
+  cache when refresh is not authorized.
+- **`ibm/granite-4-h-small`** generates structured mission briefs through
+  watsonx.ai Runtime Lite. Temperature is zero, output is schema-checked, every
+  finding requires valid evidence IDs, malformed output is retried once, and a
+  deterministic grounded brief is always available.
 
 ## Architecture
 
-```
-server.ts                    Custom HTTP + WebSocket + Next.js server
-├── gRPC client              Polls dish status (1s) and history (5s)
-├── WebSocket server         Broadcasts telemetry to all browser clients
-└── Next.js app              Serves the frontend
-
-src/
-├── components/
-│   ├── scene/               3D scene (React Three Fiber)
-│   │   ├── Globe            Earth with day/night textures
-│   │   ├── SatellitePropagator  Headless SGP4 propagation (shared by both views)
-│   │   ├── Satellites       Space view instanced mesh renderer
-│   │   ├── SkyView          Sky view root (groups all sky components)
-│   │   ├── sky/             Sky view components
-│   │   │   ├── SkyDomeCamera     Stellarium-style horizon camera + OrbitControls
-│   │   │   ├── SkyEnvironment    Ground plane, sky gradient, horizon ring, compass
-│   │   │   ├── SkyGrid           Elevation circles, azimuth lines, cardinal labels
-│   │   │   ├── SkyConstellations 88 IAU constellation lines + labels
-│   │   │   ├── SkySatellites     Az/el dome projection with sun shadow coloring
-│   │   │   ├── SkyStars          ~500 reference stars with RA/Dec→Az/El transform
-│   │   │   ├── SkyBeam           Glow halo on connected satellite
-│   │   │   ├── SkyTooltip        Hover tooltips for satellites + stars
-│   │   │   └── SkyTrajectory     ±5min trajectory arc on hover
-│   │   ├── GpsSatellites    GPS constellation overlay
-│   │   ├── Sun              Directional light + glow + lens flare
-│   │   ├── Moon             Textured sphere with Fresnel halo
-│   │   ├── Atmosphere       Fresnel glow shader
-│   │   ├── GroundStations   Gateway markers (star-shaped, operational/planned)
-│   │   ├── ConnectionBeam   Dish-to-satellite-to-gateway beams (always mounted)
-│   │   ├── DishMarker       Your dish location
-│   │   └── SceneSetup       Camera, controls, starfield
-│   └── hud/                 Overlay panels
-│       ├── StatusBar        Connection state, uptime, quality
-│       ├── TelemetryPanel   Ping, throughput, SNR charts
-│       ├── SatelliteInfoPanel  Satellite link, gateway, PoP, confidence
-│       ├── HandoffPanel     Starlink Network stats, shell info, handoffs
-│       ├── SkyHud           Sky view stats (sun elevation, sat counts, UTC)
-│       ├── EventLog         Real-time event feed
-│       └── ViewControls     Space/Sky toggle, auto-rotate, altitude filter
-├── data/                    Embedded datasets
-│   ├── bright-stars.ts      ~500 stars (mag ≤ 4.0) with J2000 RA/Dec
-│   └── constellations.ts    88 IAU constellation stick figures
-├── stores/                  Zustand state (app + telemetry)
-├── hooks/                   useSatellites, useHandoff
-└── lib/
-    ├── satellites/          TLE fetching, SGP4 propagation, satellite store
-    ├── websocket/           Client + server + protocol + types
-    └── utils/               Coordinates, astronomy, observer frame, sun shadow,
-                             star coordinates, shell colors, formatting
+```mermaid
+flowchart LR
+  A["Existing telemetry, TLE, Fleet data"] --> B["Existing SGP4 + ISL engine"]
+  B --> C["Deterministic scenario calculations"]
+  A --> D["512+ daily fleet observations"]
+  D --> E["Granite TTM 96-day adapter"]
+  C --> F["Evidence allowlist"]
+  F --> G["Granite 4 structured brief"]
+  C --> H["Existing HUD + Mission Ops"]
+  E --> I["Existing Fleet + Recharts"]
+  G --> H
+  J["Cache + deterministic fallback"] --> E
+  J --> G
 ```
 
-## Commands
+All IBM credentials remain server-side. API bodies are capped at 64 KB, IAM
+tokens are cached, upstream calls time out after 20 seconds and retry once,
+and in-memory rate limits protect the free allowance. AI failures never stop
+the globe, telemetry, routing, or Fleet views.
 
-| Command | Description |
-|---------|-------------|
-| `npm run dev` | Start dev server (HTTP + WebSocket + Next.js) |
-| `npm run dev:next` | Start Next.js only (no backend polling) |
-| `npm run build` | Production build |
-| `npm run start` | Start production server |
-| `npm run test` | Run tests (vitest) |
-| `npm run update-gs` | Update ground station data |
-| `npm run ingest` | Ingest latest TLEs from CelesTrak |
+## Zero-cost architecture
 
-## Tech stack
+The application requires no paid infrastructure:
 
-- **[Next.js 16](https://nextjs.org/)** — App router, API routes, SSR
-- **[React Three Fiber](https://r3f.docs.pmnd.rs/)** — React renderer for Three.js
-- **[drei](https://drei.docs.pmnd.rs/)** — R3F helpers (OrbitControls, Billboard, Text, Stars)
-- **[satellite.js](https://github.com/shashwatak/satellite-js)** — SGP4/SDP4 orbital propagation + GMST
-- **[Zustand](https://zustand.docs.pmnd.rs/)** — Lightweight state management
-- **[starlink-dish](https://www.npmjs.com/package/starlink-dish)** — TypeScript client for the Starlink dish local gRPC API
-- **[Tailwind CSS 4](https://tailwindcss.com/)** — Styling
+- existing Docker image on a **free Hugging Face CPU Space**;
+- port `7860` and `DEMO_MODE=true` for judges;
+- watsonx.ai **Runtime Lite only**, with credentials stored as Space secrets;
+- no IBM Code Engine, paid HF hardware/storage, database, vector store,
+  monitoring vendor, domain, or paid API;
+- cached forecast and deterministic brief when IBM is disabled, timed out,
+  unauthenticated, rate-limited, or out of free allowance.
 
-## How it works
+`WATSONX_LIVE_ENABLED=false` is the safe default. No user interaction can
+activate a paid plan or create billable infrastructure.
 
-**Satellite propagation**: TLE (Two-Line Element) data is fetched from CelesTrak. A headless `SatellitePropagator` component computes each satellite's position every animation frame using SGP4, writing into a shared `Float32Array`. Both Space and Sky views read from this shared buffer — propagation happens once regardless of which view is active.
+## Run locally
 
-**Sky view**: Satellite positions are projected from geocentric 3D coordinates to the observer's local horizontal frame (azimuth/elevation) using an ENU (East-North-Up) reference frame constructed from the dish latitude/longitude. Each satellite is placed on a virtual dome at its az/el position. Stars use RA/Dec→Az/El conversion via Greenwich Mean Sidereal Time. Sun illumination uses a cylindrical Earth shadow model to determine which satellites are sunlit vs. in shadow.
+Requirements: Node.js 22 and Git LFS.
 
-**Dish telemetry**: The Node.js server connects to the Starlink dish's gRPC interface, polling status and signal history. Data is broadcast over WebSocket to all connected browsers and stored in Zustand.
+```powershell
+git lfs pull
+npm ci
+Copy-Item .env.example .env.local
+npm run dev
+```
 
-**Sun and Moon**: Positions are computed from real astronomical algorithms — the Sun from ecliptic longitude and Earth's axial tilt, the Moon from mean orbital elements with perturbation corrections. The directional light follows the Sun, so the globe's day/night side and the Moon's phase are both physically accurate.
+Open `http://localhost:3000`. No physical dish is required; demo telemetry is
+enabled by default. Open `/fleet` for the forecast.
 
-## Data sources and accuracy
+To enable live IBM inference, create a watsonx.ai Runtime Lite project, confirm
+the account is still on Lite, place credentials only in `.env.local`, and set
+`WATSONX_LIVE_ENABLED=true`. Never place the API key in a `NEXT_PUBLIC_*`
+variable. Production forecast refresh additionally requires the private
+`x-forecast-refresh-token` header.
 
-This project aims to be as accurate as possible using exclusively public data. No proprietary SpaceX systems, internal APIs, or classified constellation parameters were used.
+## APIs
 
-| Source | What it provides |
-|--------|-----------------|
-| [CelesTrak / NORAD](https://celestrak.org/NORAD/elements/gp.php?GROUP=starlink&FORMAT=tle) | TLE orbital parameters for every tracked Starlink & GPS satellite |
-| [Starlink dish gRPC API](https://github.com/sparky8512/starlink-grpc-tools) | Real-time telemetry from your own dish (signal, throughput, antenna orientation) |
-| [FCC / ITU filings](https://fcc.report) | Ground station locations, cross-referenced with community research |
-| [Hipparcos / Yale BSC](https://heasarc.gsfc.nasa.gov/W3Browse/star-catalog/bsc5p.html) | ~500 bright star positions (J2000 RA/Dec, magnitudes, B-V color indices) |
-| [IAU constellation data](https://www.iau.org/public/themes/constellations/) | 88 constellation stick figure line definitions |
-| Starlink DNS conventions | PoP code mappings (e.g., `customer.frntdeu.pop.starlinkisp.net` → Frankfurt) |
-| System traceroute / DNS | Network path analysis — which internet exit point your traffic uses |
+| Endpoint | Purpose |
+|---|---|
+| `GET /api/health` | Demo, IBM, cache, model, and cost-guardrail status |
+| `POST /api/scenarios/run` | Typed deterministic outage calculation |
+| `POST /api/ai/forecast` | Cached/bundled/live 512-to-96 fleet forecast |
+| `POST /api/ai/brief` | Evidence-grounded Granite or deterministic brief |
 
-**What this app does NOT have access to**: SpaceX's internal satellite scheduling, inter-satellite laser link routing, per-satellite capacity/load, precise orbital data used by the dish (more accurate than public TLEs), or satellite maneuver/deorbit status.
+## Validation
 
-Everything beyond public data and live dish readings is an approximation or educated guess. For a full breakdown of what's measured vs. inferred, see the [Technical Review](docs/TECHNICAL_REVIEW.md).
+```powershell
+npm test
+npx tsc --noEmit
+npm run build
+docker build -t leo-sentinel .
+docker run --rm -p 7860:7860 --env-file .env.local leo-sentinel
+```
 
-## Fleet Monitor & Historical Dataset
+Tests cover existing behavior plus gateway/satellite removal, successful and
+failed rerouting, multiple disabled assets, deterministic scoring, 512-point
+validation, forecast cache and backtesting, brief schema and evidence IDs,
+malformed Granite output, IAM failure, timeout, quota exhaustion, and fallback
+behavior.
 
-The `/fleet` page tracks Starlink constellation health over time using historical NORAD TLE data — constellation growth, altitude distribution, shell fill rates, launch cadence, satellite lifecycles, orbital planes, and ISL coverage.
+## Data and limitations
 
-The complete dataset is published on Hugging Face: **[juliensimon/starlink-fleet-data](https://huggingface.co/datasets/juliensimon/starlink-fleet-data)**
+- Orbital elements: CelesTrak/Space-Track-derived public TLE sources used by the
+  upstream project.
+- Ground stations: the existing public Hugging Face ground-station dataset and
+  FCC/international filing research.
+- Fleet history: the existing Hugging Face Parquet dataset; a clearly labeled
+  deterministic demo cache is used when it is not mounted.
+- Scenario topology and risk are simulations for decision support, not commands
+  to a live constellation.
+- Forecasts are fleet trends, not orbital propagation predictions.
+- Mission briefs are constrained summaries and require operator review.
 
-- **Daily constellation snapshots** tracking every Starlink satellite (May 2019 → present)
-- Per-shell daily aggregates: satellite counts by status (operational, raising, deorbiting, decayed, anomalous)
-- Available as Parquet files for direct use with `datasets`, pandas, or DuckDB
+## Team and submission
 
-## Documentation
-
-- **[User Guide](docs/USER_GUIDE.md)** — Setup, configuration, UI walkthrough, and feature reference
-- **[Technical Review](docs/TECHNICAL_REVIEW.md)** — Data sources, accuracy analysis, and what's measured vs. approximated
+Before publishing, replace the three link placeholders above, list each team
+member and contribution here, complete the SkillsBuild requirement, and attach
+real IBM Bob evidence. The final operational checklist and exact video timeline
+are in [docs/SUBMISSION_CHECKLIST.md](docs/SUBMISSION_CHECKLIST.md).
 
 ## License
 
-MIT
+MIT. Copyright for the original project remains with Julien Simon as recorded
+in [LICENSE](LICENSE). Challenge additions preserve that notice and history.

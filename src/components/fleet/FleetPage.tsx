@@ -12,6 +12,7 @@ import { OrbitalPlanes } from './charts/OrbitalPlanes';
 import { IslCoverage } from './charts/IslCoverage';
 import { LaunchYearVintage } from './charts/LaunchYearVintage';
 import { ShellFillingTimeline } from './charts/ShellFillingTimeline';
+import { GraniteForecast } from './charts/GraniteForecast';
 
 interface ShellData {
   shell_id: number;
@@ -152,7 +153,7 @@ export function FleetPage() {
         }}
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: 16, flex: '1 1 auto', minWidth: 200 }}>
-          <span style={{ fontFamily: 'monospace', fontSize: 16, fontWeight: 'bold' }}>STARLINK FLEET</span>
+          <span style={{ fontFamily: 'monospace', fontSize: 16, fontWeight: 'bold' }}>LEO SENTINEL · FLEET</span>
           <Link
             href="/"
             style={{ fontFamily: 'monospace', fontSize: 11, color: 'rgba(255,255,255,0.5)', textDecoration: 'none' }}
@@ -191,6 +192,10 @@ export function FleetPage() {
       {/* KPI strip */}
       <div style={{ marginBottom: 16 }}>
         <SummaryStrip data={summaryData} />
+      </div>
+
+      <div className="fleet-grid" style={{ marginBottom: 12 }}>
+        <GraniteForecast />
       </div>
 
       {/* Charts */}

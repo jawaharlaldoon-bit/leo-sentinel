@@ -9,8 +9,8 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Starlink Mission Control",
-  description: "Real-time Starlink satellite constellation visualization",
+  title: "LEO Sentinel — Mission Resilience Copilot",
+  description: "Zero-cost LEO outage simulation, Granite forecasting, and grounded mission briefs",
 };
 
 export default function RootLayout({

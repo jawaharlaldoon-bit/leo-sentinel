@@ -16,7 +16,7 @@ const IP_SERVICES = [
 function getPublicIp(): string | null {
   for (const [cmd, args] of IP_SERVICES) {
     try {
-      const ip = execFileSync(cmd, [...args], { timeout: 4000 }).toString().trim();
+      const ip = execFileSync(/* turbopackIgnore: true */ cmd, [...args], { timeout: 4000 }).toString().trim();
       if (/^\d{1,3}(\.\d{1,3}){3}$/.test(ip)) return ip;
     } catch {
       // try next service
@@ -37,7 +37,7 @@ export async function GET() {
       return NextResponse.json({ ip: null, rdns: null, pop: 'Unknown' });
     }
 
-    const rdns = execFileSync('dig', ['-x', ip, '+short'], { timeout: 5000 }).toString().trim();
+    const rdns = execFileSync(/* turbopackIgnore: true */ 'dig', ['-x', ip, '+short'], { timeout: 5000 }).toString().trim();
     const pop = parsePopHostname(rdns) || 'Unknown';
 
     if (pop !== 'Unknown') {

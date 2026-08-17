@@ -205,7 +205,7 @@ async function pollHistory(): Promise<void> {
 }
 
 async function main() {
-  console.log('\u{1F6F0}\uFE0F  Starlink Mission Control starting...');
+  console.log('\u{1F6F0}\uFE0F  LEO Sentinel starting...');
   console.log(`   Port: ${port}`);
   console.log(`   Dish address: ${dishAddress}`);
   console.log(`   Demo mode: ${demoModeEnv}`);

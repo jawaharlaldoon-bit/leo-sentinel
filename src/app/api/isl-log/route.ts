@@ -55,7 +55,7 @@ export async function POST(request: Request) {
 async function rotateIfNeeded(): Promise<void> {
   let content: string;
   try {
-    content = await readFile(logPath(), 'utf-8');
+    content = await readFile(/* turbopackIgnore: true */ logPath(), 'utf-8');
   } catch {
     return; // no log yet
   }
@@ -67,7 +67,7 @@ async function rotateIfNeeded(): Promise<void> {
 
 export async function GET() {
   try {
-    const content = await readFile(logPath(), 'utf-8');
+    const content = await readFile(/* turbopackIgnore: true */ logPath(), 'utf-8');
     const lines = content.trim().split('\n').filter(Boolean);
     const entries = lines.slice(-100).map((l: string) => JSON.parse(l));
     return NextResponse.json(entries);

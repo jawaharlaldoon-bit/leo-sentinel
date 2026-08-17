@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { setDetectedPop } from '@/lib/satellites/satellite-store';
+import type { ScenarioResult } from '@/lib/scenarios/types';
 
 export interface DemoLocation {
   name: string;
@@ -40,7 +41,8 @@ interface AppState {
   islPrediction: boolean;
   demoLocation: DemoLocation | null;
   cameraMode: 'space' | 'sky';
-  mobileHudTab: 'status' | 'controls' | 'network' | 'events' | null;
+  mobileHudTab: 'status' | 'controls' | 'network' | 'events' | 'mission' | null;
+  scenarioResult: ScenarioResult | null;
 
   setSelectedSatellite: (index: number | null) => void;
   setConnectedSatellite: (index: number | null) => void;
@@ -57,7 +59,8 @@ interface AppState {
   setISLPrediction: (enabled: boolean) => void;
   setDemoLocation: (location: DemoLocation | null) => void;
   setCameraMode: (mode: 'space' | 'sky') => void;
-  setMobileHudTab: (tab: 'status' | 'controls' | 'network' | 'events' | null) => void;
+  setMobileHudTab: (tab: 'status' | 'controls' | 'network' | 'events' | 'mission' | null) => void;
+  setScenarioResult: (result: ScenarioResult | null) => void;
 }
 
 export const useAppStore = create<AppState>((set) => ({
@@ -77,6 +80,7 @@ export const useAppStore = create<AppState>((set) => ({
   demoLocation: null,
   cameraMode: 'space',
   mobileHudTab: null,
+  scenarioResult: null,
 
   setSelectedSatellite: (index) => set({ selectedSatelliteIndex: index }),
   setConnectedSatellite: (index) => set({ connectedSatelliteIndex: index }),
@@ -107,4 +111,5 @@ export const useAppStore = create<AppState>((set) => ({
   },
   setCameraMode: (mode) => set({ cameraMode: mode }),
   setMobileHudTab: (tab) => set({ mobileHudTab: tab }),
+  setScenarioResult: (scenarioResult) => set({ scenarioResult }),
 }));

@@ -15,6 +15,7 @@ import GpsSatellites from './GpsSatellites';
 import Sun from './Sun';
 import Moon from './Moon';
 import SkyView from './SkyView';
+import ScenarioRouteOverlay from './ScenarioRouteOverlay';
 import { useAppStore } from '@/stores/app-store';
 
 export default function Scene() {
@@ -32,6 +33,7 @@ export default function Scene() {
           az/el updates. Its visuals are hidden in sky mode via the group. */}
       <group visible={cameraMode === 'space'}>
         <ConnectionBeam />
+        <ScenarioRouteOverlay />
       </group>
       {cameraMode === 'space' ? (
         <>

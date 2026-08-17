@@ -66,15 +66,15 @@ export default function Home() {
           padding: '6px 16px', display: 'flex', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center',
           gap: '4px 8px', fontFamily: 'monospace', fontSize: '12px', color: 'rgba(255,255,255,0.7)',
         }}>
-          <span style={{ color: 'var(--color-accent, #00ffff)' }}>Starlink Mission Control</span>
+          <span style={{ color: 'var(--color-accent, #00ffff)' }}>LEO Sentinel</span>
           <span className="hidden sm:inline" style={{ opacity: 0.4 }}>—</span>
-          <span className="hidden sm:inline">Real-time 3D satellite tracker with Space view, Sky view, SGP4 propagation, ISL routing, and live dish telemetry</span>
+          <span className="hidden sm:inline">LEO mission resilience with outage simulation, Granite forecasts, grounded briefs, and the original live orbital engine</span>
           <span className="hidden md:inline" style={{ opacity: 0.4 }}>·</span>
           <span className="hidden md:inline">Simulated telemetry — run locally to connect your dish</span>
           <span style={{ opacity: 0.4 }}>·</span>
-          <a href="https://github.com/juliensimon/starlink-viz" target="_blank" rel="noopener noreferrer"
+          <a href="/fleet"
             style={{ color: 'var(--color-accent, #00ffff)', textDecoration: 'none' }}>
-            Code &amp; docs on GitHub ↗
+            Granite Fleet Outlook ↗
           </a>
         </div>
       )}

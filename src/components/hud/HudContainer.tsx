@@ -12,14 +12,16 @@ import EventLog from './EventLog';
 import ViewControls from './ViewControls';
 import ColorLegend from './ColorLegend';
 import SkyHud from './SkyHud';
+import MissionOpsPanel from '@/components/mission-ops/MissionOpsPanel';
 
-type MobileTab = 'status' | 'controls' | 'network' | 'events';
+type MobileTab = 'status' | 'controls' | 'network' | 'events' | 'mission';
 
 const TAB_ITEMS: { key: MobileTab; label: string; icon: string }[] = [
   { key: 'status', label: 'Status', icon: '◉' },
   { key: 'controls', label: 'Controls', icon: '⚙' },
   { key: 'network', label: 'Network', icon: '⬡' },
   { key: 'events', label: 'Events', icon: '▤' },
+  { key: 'mission', label: 'Mission', icon: '◇' },
 ];
 
 function MobileStatusPill() {
@@ -103,9 +105,14 @@ export default function HudContainer() {
             <HandoffPanel />
           </div>
 
-          {/* Top-right: View controls */}
+          {/* Top-right: Existing controls */}
           <div className="absolute top-16 right-6 pointer-events-auto">
             <ViewControls />
+          </div>
+
+          {/* Mission Ops stays beside controls so the bottom legend cannot cover it. */}
+          <div className="absolute top-16 right-[320px] pointer-events-auto">
+            <MissionOpsPanel />
           </div>
 
           {/* Bottom-right: Color legend */}
@@ -193,6 +200,9 @@ export default function HudContainer() {
             </div>
             <div className={mobileHudTab === 'events' ? '' : 'hidden'}>
               <EventLog />
+            </div>
+            <div className={mobileHudTab === 'mission' ? '' : 'hidden'}>
+              <MissionOpsPanel />
             </div>
           </div>
         </div>

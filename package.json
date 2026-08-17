@@ -1,5 +1,5 @@
 {
-  "name": "starlink",
+  "name": "leo-sentinel",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -13,21 +13,21 @@
   },
   "dependencies": {
     "@duckdb/node-api": "^1.5.0-r.1",
-    "@grpc/grpc-js": "^1.14.3",
+    "@grpc/grpc-js": "^1.14.4",
     "@grpc/proto-loader": "^0.8.0",
     "@react-three/drei": "^10.7.7",
     "@react-three/fiber": "^9.5.0",
     "@react-three/postprocessing": "^3.0.4",
     "better-sqlite3": "^12.8.0",
-    "next": "16.1.6",
+    "next": "16.3.1",
     "react": "19.2.3",
     "react-dom": "19.2.3",
     "recharts": "^3.8.0",
     "satellite.js": "^6.0.2",
     "starlink-dish": "^0.2.1",
     "three": "^0.183.2",
-    "tsx": "^4.21.0",
-    "ws": "^8.19.0",
+    "tsx": "^4.23.12",
+    "ws": "^8.21.3",
     "zustand": "^5.0.11"
   },
   "devDependencies": {
@@ -38,9 +38,12 @@
     "@types/react-dom": "^19",
     "@types/three": "^0.183.1",
     "@types/ws": "^8.18.1",
-    "@vitest/coverage-v8": "^4.1.0",
+    "@vitest/coverage-v8": "^4.1.10",
     "tailwindcss": "^4",
     "typescript": "^5",
-    "vitest": "^4.1.0"
+    "vitest": "^4.1.10"
+  },
+  "overrides": {
+    "esbuild": "0.28.1"
   }
 }
