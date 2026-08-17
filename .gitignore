@@ -52,6 +52,7 @@ yarn-error.log*
 # screenshots (except docs/ and public/textures/)
 *.png
 !docs/*.png
+!docs/bob-evidence/*.png
 !public/textures/*.png
 
 # typescript

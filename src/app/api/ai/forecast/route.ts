@@ -27,7 +27,7 @@ export async function POST(request: NextRequest) {
     const cached = getCached<FleetForecast>(key);
     if (cached && !body.refresh) return NextResponse.json({ ...cached, mode: 'cache', source });
 
-    const fallback = buildDeterministicForecast(observations, source === 'bundled-demo-cache' ? 'cache' : 'fallback');
+    const fallback = buildDeterministicForecast(observations, 'fallback');
     const refreshAuthorized =
       process.env.NODE_ENV === 'development' ||
       (Boolean(process.env.WATSONX_FORECAST_REFRESH_TOKEN) &&

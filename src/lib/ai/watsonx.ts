@@ -1,3 +1,4 @@
+import 'server-only';
 import { GRANITE_BRIEF_MODEL_ID, GRANITE_TTM_MODEL_ID } from './types';
 import type { ForecastObservation } from './types';
 

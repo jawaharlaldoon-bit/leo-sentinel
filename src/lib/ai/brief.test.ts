@@ -1,10 +1,19 @@
-import { describe, expect, it } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { NextRequest } from 'next/server';
 import { runScenario } from '@/lib/scenarios/engine';
 import {
   buildDeterministicBrief,
   validateMissionBrief,
   validateScenarioForBrief,
 } from './brief';
+import { clearAiCacheForTests } from './cache';
+import { clearRateLimitsForTests } from './rate-limit';
+
+// Mock only the watsonx inference call — keeps all other brief logic real.
+vi.mock('@/lib/ai/watsonx', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@/lib/ai/watsonx')>();
+  return { ...actual };
+});
 
 const scenario = runScenario({
   scenarioId: 'north-atlantic-gateway-outage',
@@ -39,5 +48,45 @@ describe('mission brief grounding', () => {
         evidence: [...scenario.evidence, scenario.evidence[0]],
       }),
     ).toThrow('duplicate evidence');
+  });
+});
+
+describe('brief route retry behaviour', () => {
+  beforeEach(() => {
+    clearAiCacheForTests();
+    clearRateLimitsForTests();
+    vi.resetModules();
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
+  it('falls back to deterministic brief on QUOTA without a second IBM call', async () => {
+    // Import the watsonx module so we can spy on generateGraniteBrief.
+    const watsonx = await import('@/lib/ai/watsonx');
+    // Simulate watsonx enabled but IBM returns quota error.
+    vi.spyOn(watsonx, 'isLiveWatsonxEnabled').mockReturnValue(true);
+    const spy = vi
+      .spyOn(watsonx, 'generateGraniteBrief')
+      .mockRejectedValue(new watsonx.WatsonxError('quota exhausted', 'QUOTA'));
+
+    // Import the route handler after spies are in place.
+    const { POST } = await import('@/app/api/ai/brief/route');
+    const body = JSON.stringify({ scenario });
+    const request = new NextRequest('http://localhost/api/ai/brief', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Content-Length': String(body.length) },
+      body,
+    });
+
+    const response = await POST(request);
+    const data = await response.json() as { mode: string };
+
+    // Must fall back to deterministic — mode is 'fallback', not an error.
+    expect(response.status).toBe(200);
+    expect(data.mode).toBe('fallback');
+    // QUOTA is non-transient: the route must call IBM exactly once, not twice.
+    expect(spy).toHaveBeenCalledTimes(1);
   });
 });

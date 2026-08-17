@@ -71,4 +71,11 @@ describe('fleet forecast', () => {
     setCached(key, forecast);
     expect(getCached(key)).toEqual(forecast);
   });
+
+  it('bundled demo observations produce fallback mode, not cache', () => {
+    // Bundled synthetic data is always a deterministic fallback — never label
+    // it "cache" (which implies a prior live IBM result was cached).
+    const forecast = buildDeterministicForecast(createBundledDemoObservations(), 'fallback');
+    expect(forecast.mode).toBe('fallback');
+  });
 });

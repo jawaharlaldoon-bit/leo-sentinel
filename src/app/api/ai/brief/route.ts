@@ -11,7 +11,7 @@ import {
 import { getCached, setCached } from '@/lib/ai/cache';
 import { checkRateLimit } from '@/lib/ai/rate-limit';
 import type { MissionBriefResponse } from '@/lib/ai/types';
-import { generateGraniteBrief, isLiveWatsonxEnabled } from '@/lib/ai/watsonx';
+import { generateGraniteBrief, isLiveWatsonxEnabled, WatsonxError } from '@/lib/ai/watsonx';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -42,8 +42,13 @@ export async function POST(request: NextRequest) {
           };
           setCached(cacheKey, response);
           return NextResponse.json(response);
-        } catch {
-          // Retry malformed/transient output once, then use the grounded deterministic brief.
+        } catch (error) {
+          // Only retry on MALFORMED (bad JSON from the model) or UPSTREAM (transient 5xx).
+          // Non-transient codes — AUTHENTICATION, QUOTA, CONFIGURATION, TIMEOUT — are
+          // permanent for this request; fall through immediately to the deterministic brief.
+          if (error instanceof WatsonxError && error.code !== 'MALFORMED' && error.code !== 'UPSTREAM') {
+            break;
+          }
         }
       }
     }

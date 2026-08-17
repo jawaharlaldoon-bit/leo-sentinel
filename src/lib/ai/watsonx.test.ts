@@ -49,4 +49,21 @@ describe('watsonx failure handling', () => {
       code: 'TIMEOUT',
     });
   });
+
+  it('does not retry on QUOTA — IBM is called exactly once for inference', async () => {
+    // Call 1: IAM token exchange (succeeds)
+    // Call 2: inference (429 quota exhausted)
+    // fetchWithRetry must NOT retry a 4xx — total calls must be exactly 2.
+    const fakeFetch = vi
+      .fn()
+      .mockResolvedValueOnce(
+        new Response(JSON.stringify({ access_token: 'token', expires_in: 3600 }), { status: 200 }),
+      )
+      .mockResolvedValueOnce(new Response('{}', { status: 429 })) as unknown as typeof fetch;
+    await expect(generateGraniteBrief('brief', fakeFetch)).rejects.toMatchObject({
+      code: 'QUOTA',
+    });
+    // Exactly 2 fetches: IAM + 1 inference attempt (no retry on 4xx).
+    expect(fakeFetch).toHaveBeenCalledTimes(2);
+  });
 });
