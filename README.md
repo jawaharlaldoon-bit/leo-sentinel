@@ -173,10 +173,12 @@ behavior.
 
 ## Team and submission
 
-Before publishing, replace the three link placeholders above, list each team
-member and contribution here, complete the SkillsBuild requirement, and attach
-real IBM Bob evidence. The final operational checklist and exact video timeline
-are in [docs/SUBMISSION_CHECKLIST.md](docs/SUBMISSION_CHECKLIST.md).
+IBM Bob prompts, outcomes, validation, and screenshots are recorded in
+[IBM_BOB_USAGE.md](IBM_BOB_USAGE.md). Before submitting, add the final public
+video URL, list each team member and contribution here, and have every team
+member complete the required SkillsBuild activity. The final operational
+checklist and exact video timeline are in
+[docs/SUBMISSION_CHECKLIST.md](docs/SUBMISSION_CHECKLIST.md).
 
 ## License
 

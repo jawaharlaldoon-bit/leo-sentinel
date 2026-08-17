@@ -5,7 +5,7 @@
 - [x] Add the final public GitHub repository URL to `README.md`.
 - [ ] Confirm the original author is authorized and correctly listed as a team member.
 - [ ] Complete the required IBM SkillsBuild activity for every team member.
-- [ ] Complete `IBM_BOB_USAGE.md` with real prompts, commits, and screenshots.
+- [x] Complete `IBM_BOB_USAGE.md` with real prompts, commits, and screenshots.
 - [ ] Add names and explicit contributions to the README.
 
 ## Zero-cost deployment
@@ -16,14 +16,14 @@
 - [x] Begin with `WATSONX_LIVE_ENABLED=false` and verify cache/fallback mode.
 - [ ] Enable Runtime Lite only after confirming the IBM account remains on Lite.
 - [x] Never select a paid plan, persistent paid storage, or upgraded hardware.
-- [ ] Open the public URL in an incognito window and test Globe, Fleet, and APIs.
+- [x] Open the public URL in a clean browser context and test Globe, Fleet, and APIs.
 
 ## Acceptance test
 
-- [ ] Space and Sky views load and remain interactive.
+- [x] Space and Sky views load and remain interactive.
 - [x] Fleet loads the cached Granite outlook without the Parquet dataset.
 - [x] North Atlantic scenario shows a successful Goonhilly reroute.
-- [ ] Isolating Goonhilly produces a no-route critical result.
+- [x] Isolating Goonhilly produces a no-route critical result.
 - [x] Mission brief cites only evidence IDs shown in the drawer.
 - [x] `/api/health` reports fallback ready and exposes no secrets.
 - [x] Tests, TypeScript, production build, and Docker build pass.
